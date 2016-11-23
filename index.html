@@ -114,5 +114,26 @@
                 document.querySelector( '.js-map-image' ).setAttribute( 'src', event.target.value + '.png' );
             }
         });
+
+        document.addEventListener( 'DOMContentLoaded', function() {
+            var images = [];
+
+            function preload() {
+                for (var i = 0; i < preload.arguments.length; i = i + 1 ) {
+                    images[i] = new Image();
+                    images[i].src = preload.arguments[ i ];
+                }
+            }
+
+            preload(
+                'de_cobblestone.png',
+                'de_dust2.png',
+                'de_inferno.png',
+                'de_mirage.png',
+                'de_nuke.png',
+                'de_overpass.png',
+                'de_train.png'
+            );
+        });
     </script>
 </body>
