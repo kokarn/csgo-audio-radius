@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<head>
+    <meta charset="utf-8">
+    <title>
+        How far can you hear in CSGO?
+    </title>
+    <style>
+        body {
+            background-color: #000;
+            margin: 0;
+            padding: 0;
+            text-align: center;
+        }
+
+        button {
+            background: none;
+            border: 1px solid #fff;
+            color: #fff;
+            padding: 10px 20px;
+        }
+
+        .active {
+            background-color: #fff;
+            color: #000;
+        }
+
+        .buttons-wrapper {
+            margin: 10px 0;
+        }
+
+        .cursor {
+            left: 0;
+            position: absolute;
+            top: 0;
+        }
+
+        .map-select {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            padding: 10px 20px;
+        }
+    </style>
+</head>
+<body>
+    <div class="buttons-wrapper">
+        <button value="de_cache" class="active">
+            Cache
+        </button>
+        <button value="de_cobblestone">
+            Cobblestone
+        </button>
+        <button value="de_dust2">
+            Dust2
+        </button>
+        <button value="de_inferno">
+            Inferno
+        </button>
+        <button value="de_mirage">
+            Mirage
+        </button>
+        <button value="de_nuke">
+            Nuke
+        </button>
+        <button value="de_overpass">
+            Overpass
+        </button>
+        <button value="de_train">
+            Train
+        </button>
+    </div>
+    <img src="de_cache.png" class="map-image js-map-image">
+    <img src="cursor.png" class="cursor js-draggable " draggable="true">
+    <script src="https://cdn.jsdelivr.net/interact.js/1.2.6/interact.min.js"></script>
+    <script>
+        interact( '.js-draggable' )
+            .draggable({
+                onmove: dragMoveListener
+            });
+
+        function dragMoveListener( event ) {
+            var x = ( parseFloat( event.target.getAttribute( 'data-x' ) ) || 0 ) + event.dx;
+            var y = ( parseFloat( event.target.getAttribute( 'data-y' ) ) || 0 ) + event.dy;
+
+            translateElement( event.target, x, y );
+        }
+
+        function translateElement( target, x, y ){
+            target.style.webkitTransform =
+            target.style.transform =
+              'translate(' + x + 'px, ' + y + 'px)';
+
+            target.setAttribute( 'data-x', x );
+            target.setAttribute( 'data-y', y );
+        }
+
+        translateElement( document.querySelector( '.js-draggable' ), window.innerWidth / 2 - 180, 200 );
+
+        // this is used later in the resizing and gesture demos
+        window.dragMoveListener = dragMoveListener;
+
+        window.addEventListener( 'click', function( event ){
+            if( event.target.nodeName === 'BUTTON' ){
+                document.querySelector( '.active' ).classList.remove( 'active' );
+                event.target.classList.add( 'active' );
+                document.querySelector( '.js-map-image' ).setAttribute( 'src', event.target.value + '.png' );
+            }
+        });
+
+        window.addEventListener( 'touchstart', function( event ){
+            if( event.target.nodeName === 'BUTTON' ){
+                document.querySelector( '.active' ).classList.remove( 'active' );
+                event.target.classList.add( 'active' );
+                document.querySelector( '.js-map-image' ).setAttribute( 'src', event.target.value + '.png' );
+            }
+        });
+    </script>
+</body>
